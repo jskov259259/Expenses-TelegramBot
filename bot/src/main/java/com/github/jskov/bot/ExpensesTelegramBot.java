@@ -1,5 +1,8 @@
 package com.github.jskov.bot;
 
+import com.github.jskov.command.Command;
+import com.github.jskov.command.CommandContainer;
+import com.github.jskov.service.SendBotMessageServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -16,24 +19,24 @@ public class ExpensesTelegramBot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String token;
 
+    private final CommandContainer commandContainer;
+
+    public ExpensesTelegramBot() {
+        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this));
+    }
+
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
+
             String message = update.getMessage().getText().trim();
-            String chatId = update.getMessage().getChatId().toString();
+            String commandIdentifier = message.split(" ")[0].toLowerCase();
 
-            SendMessage sm = new SendMessage();
-            sm.setChatId(chatId);
-            sm.setText(message);
+            Command command = commandContainer.retrieveCommand(commandIdentifier);
+            command.execute(update);
 
-            try {
-                execute(sm);
-            } catch (TelegramApiException e) {
-                //todo add logging to the project.
-                e.printStackTrace();
-            }
         }
-    }
+        }
 
     @Override
     public String getBotUsername() {
