@@ -1,7 +1,6 @@
 package com.github.jskov.bot;
 
 import com.github.jskov.command.Command;
-import com.github.jskov.command.HelpCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

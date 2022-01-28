@@ -4,27 +4,43 @@ import com.github.jskov.command.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.github.jskov.bot.CommandName.*;
+
 
 @Component
 public class CommandContainer {
 
-    @Autowired
     private HelpCommand helpCommand;
-    @Autowired
     private StartCommand startCommand;
-    @Autowired
     private StopCommand stopCommand;
-    @Autowired
     private UnknownCommand unknownCommand;
 
+    private Map<String, Command> commandMap = new HashMap<>();
 
     public Command defineCommand(String commandIdentifier) {
-        switch (commandIdentifier) {
-            case "/start" : return startCommand;
-            case "/help" : return helpCommand;
-            case "/stop" : return stopCommand;
-            default: return unknownCommand;
-        }
-    }
+        return commandMap.getOrDefault(commandIdentifier, unknownCommand);
+}
 
+    @Autowired
+    public void setHelpCommand(HelpCommand helpCommand) {
+        this.helpCommand = helpCommand;
+        commandMap.put(HELP.getCommandName(), helpCommand);
+    }
+    @Autowired
+    public void setStartCommand(StartCommand startCommand) {
+        this.startCommand = startCommand;
+        commandMap.put(START.getCommandName(), startCommand);
+    }
+    @Autowired
+    public void setStopCommand(StopCommand stopCommand) {
+        this.stopCommand = stopCommand;
+        commandMap.put(STOP.getCommandName(), stopCommand);
+    }
+    @Autowired
+    public void setUnknownCommand(UnknownCommand unknownCommand) {
+        this.unknownCommand = unknownCommand;
+    }
 }
