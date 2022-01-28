@@ -4,7 +4,10 @@ public enum CommandName {
 
     START("/start"),
     STOP("/stop"),
-    HELP("/help");
+    HELP("/help"),
+    ADD("/add"),
+    CODE("/code"),
+    GET("/get");
 
     private final String commandName;
 
