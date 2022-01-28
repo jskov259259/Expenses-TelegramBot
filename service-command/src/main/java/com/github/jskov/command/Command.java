@@ -3,14 +3,14 @@ package com.github.jskov.command;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**
- * command.Command interface for handling telegram-bot commands.
+ * Command interface for handling telegram-bot commands.
  */
 public interface Command {
 
         /**
-         * Main method, which is executing com.github.jskov.command logic.
+         * Main method, which is executing command logic.
          *
-         * @param update provided {@link Update} object with all the needed data for com.github.jskov.command.
+         * @param update provided {@link Update} object with all the needed data for command.
          */
     String execute(Update update);
 

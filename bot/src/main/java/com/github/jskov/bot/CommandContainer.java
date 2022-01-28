@@ -1,26 +1,30 @@
-//package com.github.jskov.bot;
-//
-//import com.github.jskov.service.SendBotMessageService;
-//import com.google.common.collect.ImmutableMap;
-//
-//import static com.github.jskov.bot.CommandName.*;
-//
-//public class CommandContainer {
-//
-//    private final ImmutableMap<String, Command> commandMap;
-//    private final Command unknownCommand;
-//
-//    public CommandContainer(SendBotMessageService sendBotMessageService) {
-//        commandMap = ImmutableMap.<String, Command>builder()
-//                .put(START.getCommandName(), new StartCommand(sendBotMessageService))
-//                .put(STOP.getCommandName(), new StopCommand(sendBotMessageService))
-//                .put(HELP.getCommandName(), new HelpCommand(sendBotMessageService))
-//                .build();
-//        unknownCommand = new UnknownCommand(sendBotMessageService);
-//    }
-//
-//    public Command retrieveCommand(String commandIdentifier) {
-//        return commandMap.getOrDefault(commandIdentifier, unknownCommand);
-//    }
-//
-//}
+package com.github.jskov.bot;
+
+import com.github.jskov.command.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+
+@Component
+public class CommandContainer {
+
+    @Autowired
+    private HelpCommand helpCommand;
+    @Autowired
+    private StartCommand startCommand;
+    @Autowired
+    private StopCommand stopCommand;
+    @Autowired
+    private UnknownCommand unknownCommand;
+
+
+    public Command defineCommand(String commandIdentifier) {
+        switch (commandIdentifier) {
+            case "/start" : return startCommand;
+            case "/help" : return helpCommand;
+            case "/stop" : return stopCommand;
+            default: return unknownCommand;
+        }
+    }
+
+}

@@ -1,8 +1,5 @@
 package com.github.jskov.bot;
 
-/**
- * Enumeration for {@link Command}'s.
- */
 public enum CommandName {
 
     START("/start"),

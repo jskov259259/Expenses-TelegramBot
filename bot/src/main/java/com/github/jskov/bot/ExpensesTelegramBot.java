@@ -1,5 +1,6 @@
 package com.github.jskov.bot;
 
+import com.github.jskov.command.Command;
 import com.github.jskov.command.HelpCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,23 +18,27 @@ public class ExpensesTelegramBot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String token;
 
-    private HelpCommand helpCommand;
+    private CommandContainer commandContainer;
 
     @Autowired
-    ExpensesTelegramBot(HelpCommand helpCommand) {
-        this.helpCommand = helpCommand;
+    ExpensesTelegramBot(CommandContainer commandContainer) {
+        this.commandContainer = commandContainer;
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
 
+            //define incoming command
             String message = update.getMessage().getText().trim();
             String commandIdentifier = message.split(" ")[0].toLowerCase();
 
-            String responseMessage = helpCommand.execute(update);
-            sendMessage(update, responseMessage);
+            //define command service and response message
+            Command command = commandContainer.defineCommand(commandIdentifier);
+            String responseMessage = command.execute(update);
 
+            //send response message
+            sendMessage(update, responseMessage);
         }
         }
 
