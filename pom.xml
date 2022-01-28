@@ -13,7 +13,8 @@
 	<modules>
 		<module>bot</module>
         <module>service-command</module>
-    </modules>
+		<module>test-db</module>
+	</modules>
 
 	<properties>
 		<java.version>11</java.version>
