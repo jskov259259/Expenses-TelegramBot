@@ -1,4 +1,4 @@
-package com.github.jskov.command;
+package com.github.jskov.bot;
 
 /**
  * Enumeration for {@link Command}'s.

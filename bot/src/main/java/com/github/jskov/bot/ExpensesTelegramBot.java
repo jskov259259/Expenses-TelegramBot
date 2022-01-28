@@ -1,8 +1,7 @@
 package com.github.jskov.bot;
 
-import com.github.jskov.command.Command;
-import com.github.jskov.command.CommandContainer;
-import com.github.jskov.service.SendBotMessageServiceImpl;
+import com.github.jskov.command.HelpCommand;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -15,14 +14,14 @@ public class ExpensesTelegramBot extends TelegramLongPollingBot {
 
     @Value("${bot.username}")
     private String username;
-
     @Value("${bot.token}")
     private String token;
 
-    private final CommandContainer commandContainer;
+    private HelpCommand helpCommand;
 
-    public ExpensesTelegramBot() {
-        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this));
+    @Autowired
+    ExpensesTelegramBot(HelpCommand helpCommand) {
+        this.helpCommand = helpCommand;
     }
 
     @Override
@@ -32,11 +31,25 @@ public class ExpensesTelegramBot extends TelegramLongPollingBot {
             String message = update.getMessage().getText().trim();
             String commandIdentifier = message.split(" ")[0].toLowerCase();
 
-            Command command = commandContainer.retrieveCommand(commandIdentifier);
-            command.execute(update);
+            String responseMessage = helpCommand.execute(update);
+            sendMessage(update, responseMessage);
 
         }
         }
+
+    private void sendMessage(Update update, String message) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(update.getMessage().getChatId().toString());
+        sendMessage.enableHtml(true);
+        sendMessage.setText(message);
+
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            //todo add logging to the project.
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public String getBotUsername() {
