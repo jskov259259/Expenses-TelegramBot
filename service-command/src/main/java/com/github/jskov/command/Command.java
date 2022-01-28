@@ -12,6 +12,6 @@ public interface Command {
          *
          * @param update provided {@link Update} object with all the needed data for command.
          */
-    void execute(Update update);
+    String execute(Update update);
 
 }
