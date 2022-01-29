@@ -7,7 +7,8 @@ public enum CommandName {
     HELP("/help"),
     ADD("/add"),
     CODE("/code"),
-    GET("/get");
+    GET("/get"),
+    ADDCATEGORY("/addcategory");
 
     private final String commandName;
 

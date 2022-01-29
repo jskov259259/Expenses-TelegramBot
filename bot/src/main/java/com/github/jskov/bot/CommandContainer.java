@@ -20,6 +20,7 @@ public class CommandContainer {
     private CodeCommand codeCommand;
     private GetCommand getCommand;
     private UnknownCommand unknownCommand;
+    private AddCategoryCommand addCategoryCommand;
 
     private Map<String, Command> commandMap = new HashMap<>();
 
@@ -56,6 +57,11 @@ public class CommandContainer {
     public void setGetCommand(GetCommand getCommand) {
         this.getCommand = getCommand;
         commandMap.put(GET.getCommandName(), getCommand);
+    }
+    @Autowired
+    public void setAddCategoryCommand(AddCategoryCommand addCategoryCommand) {
+        this.addCategoryCommand = addCategoryCommand;
+        commandMap.put(ADDCATEGORY.getCommandName(), addCategoryCommand);
     }
     @Autowired
     public void setUnknownCommand(UnknownCommand unknownCommand) {
