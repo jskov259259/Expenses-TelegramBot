@@ -15,6 +15,7 @@ public class GetCommand implements Command {
 
     public static final String GET_MESSAGE = "Information for the required period:\n----------\n";
     public static final String GET_MESSAGE_ERROR = "Incorrect date format";
+    public static final String GET_MESSAGE_EMPTY = "Message is empty";
 
     private CategorySumDtoDao categorySumDtoDao;
 
@@ -26,7 +27,7 @@ public class GetCommand implements Command {
     public String execute(Update update) {
 
         if (update.getMessage().getText().trim().split(" ").length == 1) {
-            return GET_MESSAGE_ERROR;
+            return GET_MESSAGE_EMPTY;
         }
 
         String incomingText = update.getMessage().getText().trim().split(" ")[1].toLowerCase();
