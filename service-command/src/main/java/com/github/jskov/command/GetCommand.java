@@ -1,12 +1,13 @@
 package com.github.jskov.command;
 
+import com.github.jskov.command.enums.Period;
 import com.github.jskov.command.exceptions.IncorrectDateExpense;
 import com.github.jskov.dao.jdbc.dto.CategorySumDtoDao;
 import com.github.jskov.model.dto.CategorySumDto;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.time.LocalDate;
+import java.time.*;
 import java.util.List;
 
 
@@ -48,10 +49,20 @@ public class GetCommand implements Command {
     }
 
     private LocalDate[] defineDatesByIncomingMessage(String incomingText, long unixTime) throws IncorrectDateExpense {
+        LocalDate dateOfMessage = LocalDateTime.ofEpochSecond(unixTime, 0, ZoneOffset.UTC).toLocalDate();
 
         LocalDate[] localDates = new LocalDate[2];
-        localDates[0] = LocalDate.of(2021, 10, 1);
-        localDates[1] = LocalDate.of(2021, 11, 4);
+        localDates[1] = dateOfMessage;
+
+        Period period = Period.valueOf(incomingText.toUpperCase());
+        switch (period) {
+            case DAY : localDates[0] = dateOfMessage; break;
+            case WEEK: localDates[0] = dateOfMessage.minusWeeks(1); break;
+            case MONTH: localDates[0] = dateOfMessage.minusMonths(1); break;
+            case YEAR: localDates[0] = dateOfMessage.minusYears(1); break;
+            case ALL : localDates[0] = LocalDate.EPOCH; break;
+        }
+
         return localDates;
     }
 
