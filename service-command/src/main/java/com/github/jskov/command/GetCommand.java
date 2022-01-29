@@ -6,6 +6,7 @@ import com.github.jskov.model.dto.CategorySumDto;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.math.BigDecimal;
 import java.time.*;
 import java.util.List;
 
@@ -13,9 +14,9 @@ import java.util.List;
 @Service
 public class GetCommand implements Command {
 
-    public static final String GET_MESSAGE = "Information for the required period:\n----------\n";
-    public static final String GET_MESSAGE_ERROR = "Incorrect date format";
-    public static final String GET_MESSAGE_EMPTY = "Message is empty";
+    public static final String GET_MESSAGE = "Information for the required period:\n";
+    public static final String GET_MESSAGE_ERROR = "Incorrect date format. Use /help to get detailed information";
+    public static final String GET_MESSAGE_EMPTY = "Message is empty. Use following format:\n/get dd.mm.yyyy\n/get dd.mm.yyyy-dd.mm.yyyy\n/get Period designation";
 
     private CategorySumDtoDao categorySumDtoDao;
 
@@ -38,15 +39,18 @@ public class GetCommand implements Command {
             dates = defineDatesByIncomingMessage(incomingText, unixTime);
         } catch (Exception ex) {
             ex.printStackTrace();
-            // TODO make logger for IncorrectDateExpense
+            // TODO make logger
             return GET_MESSAGE_ERROR;
         }
 
         List<CategorySumDto> categorySumDtoList = findCategoriesWithSumOfExpenses(dates[0], dates[1]);
         StringBuilder responseMessage = new StringBuilder(GET_MESSAGE);
+        BigDecimal totalSum = new BigDecimal("0.0");
         for (CategorySumDto categorySumDto : categorySumDtoList) {
-            responseMessage.append(categorySumDto.getCategoryName() + " " + categorySumDto.getSumOfExpense() + "\n");
+            responseMessage.append(categorySumDto.getCategoryName() + ": " + categorySumDto.getSumOfExpense() + "\n");
+            totalSum = totalSum.add(categorySumDto.getSumOfExpense());
         }
+        responseMessage.append("----------\nTotal sum: " + totalSum);
         // TODO make responseMessage from categorySumDtoList with stream API
 
         return responseMessage.toString();

@@ -13,7 +13,7 @@ import java.util.Map;
 @Component
 public class CategorySumDtoDaoJdbc implements CategorySumDtoDao {
 
-    private String sqlFindCategoriesWithSumOfExpenses = "SELECT c.category_name AS categoryName, sum(e.price) AS sumOfExpense FROM expense e INNER JOIN category c ON e.category_id = c.category_id WHERE date BETWEEN :dateFrom AND :dateTo GROUP BY e.category_id ORDER BY sumOfExpense";
+    private String sqlFindCategoriesWithSumOfExpenses = "SELECT c.category_name AS categoryName, sum(e.price) AS sumOfExpense FROM expense e INNER JOIN category c ON e.category_id = c.category_id WHERE date BETWEEN :dateFrom AND :dateTo GROUP BY e.category_id ORDER BY sumOfExpense DESC";
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
