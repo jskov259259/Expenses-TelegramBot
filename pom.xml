@@ -15,6 +15,7 @@
         <module>service-command</module>
 		<module>test-db</module>
 		<module>dao</module>
+		<module>model</module>
 	</modules>
 
 	<properties>
