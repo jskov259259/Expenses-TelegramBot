@@ -14,4 +14,5 @@ public interface CategoryDao {
      * @return Category list
      */
     List<Category> findAllCategories();
+
 }
