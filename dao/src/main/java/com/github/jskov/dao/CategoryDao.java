@@ -15,4 +15,17 @@ public interface CategoryDao {
      */
     List<Category> findAllCategories();
 
+    /**
+     * Create new Category
+     * @param category - category to create
+     * @return - id of the created category
+     */
+    Integer addNewCategory(Category category);
+
+    /**
+     * Check unique category name
+     * @param categoryName - Category name
+     * @return - true if the category is missing
+     */
+    boolean isCategoryUnique(String categoryName);
 }

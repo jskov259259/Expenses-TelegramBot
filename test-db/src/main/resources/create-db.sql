@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS expense;
 CREATE TABLE category
 (
   category_id INT NOT NULL AUTO_INCREMENT,
-  category_name VARCHAR(50) UNIQUE,
+  category_name VARCHAR(20) UNIQUE,
   CONSTRAINT category_pk PRIMARY KEY (category_id)
 );
 
