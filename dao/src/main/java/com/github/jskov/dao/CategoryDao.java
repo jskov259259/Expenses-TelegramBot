@@ -28,4 +28,10 @@ public interface CategoryDao {
      * @return - true if the category is missing
      */
     boolean isCategoryUnique(String categoryName);
+
+    /**
+     * Get count of all categories
+     * @return - count of all categories
+     */
+    Integer countOfCategories();
 }
