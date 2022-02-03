@@ -13,4 +13,10 @@ public interface ExpenseDao {
      * @return - id of the created expense
      */
     Integer addNewExpense(Expense expense);
+
+    /**
+     * Get count of all expenses
+     * @return - count of all expenses
+     */
+    Integer countOfExpenses();
 }

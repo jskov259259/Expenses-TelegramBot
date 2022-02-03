@@ -1,7 +1,5 @@
-DROP TABLE IF EXISTS category;
-
 DROP TABLE IF EXISTS expense;
-
+DROP TABLE IF EXISTS category;
 
 CREATE TABLE category
 (

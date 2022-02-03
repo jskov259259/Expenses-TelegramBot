@@ -22,6 +22,8 @@ public class CategoryDaoJdbc implements CategoryDao {
     private String sqlAllCategories = "SELECT c.category_id, c.category_name FROM category c ORDER BY c.category_id";
     private String sqlCreateNewCategory = "INSERT INTO category(category_id, category_name) VALUES (:categoryId, :categoryName)";
     private String sqlCheckUniqueCategoryName = "SELECT count(c.category_name) FROM category c WHERE lower(c.category_name) = lower(:categoryName)";
+    private String sqlCountOfCategories = "SELECT count(*) FROM category";
+    // todo make sql commands in properties file
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -50,6 +52,11 @@ public class CategoryDaoJdbc implements CategoryDao {
     public boolean isCategoryUnique(String categoryName) {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource("categoryName", categoryName);
         return namedParameterJdbcTemplate.queryForObject(sqlCheckUniqueCategoryName, sqlParameterSource, Integer.class) == 0;
+    }
+
+    @Override
+    public Integer countOfCategories() {
+        return namedParameterJdbcTemplate.queryForObject(sqlCountOfCategories, new MapSqlParameterSource(), Integer.class);
     }
 
     private class CategoryRowMapper implements RowMapper<Category> {
