@@ -72,5 +72,8 @@ class CategoryDaoJdbcTestIT {
         //todo make category initialization before tests
         boolean isUnique = categoryDaoJdbc.isCategoryUnique("Tickets");
         assertTrue(isUnique);
+        categoryDaoJdbc.addNewCategory(category);
+        boolean isNotUnique = categoryDaoJdbc.isCategoryUnique("Tickets");
+        assertFalse(isNotUnique);
     }
 }

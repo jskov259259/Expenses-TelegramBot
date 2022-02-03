@@ -16,6 +16,7 @@ import java.util.Map;
 public class ExpenseDaoJdbc implements ExpenseDao {
 
     private String sqlAddNewExpense = "INSERT INTO expense(expense_id, date, category_id, price) VALUES (:expense_id, :date, :category_id, :price)";
+    private String sqlCountOfExpenses = "SELECT count(*) FROM expense";
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -35,5 +36,10 @@ public class ExpenseDaoJdbc implements ExpenseDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(sqlAddNewExpense, sqlParameterSource, keyHolder);
         return (Integer) keyHolder.getKey();
+    }
+
+    @Override
+    public Integer countOfExpenses() {
+        return namedParameterJdbcTemplate.queryForObject(sqlCountOfExpenses, new MapSqlParameterSource(), Integer.class);
     }
 }
