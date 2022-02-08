@@ -19,4 +19,4 @@ This command displays statistics for the selected period.
 
 ## Technological stack
 - SpringBoot as a skeleton framework.
-- MySQL database as a database for saving expenses and other information.
+- H2 database (embedded mode) as a database for saving expenses and other information. 
